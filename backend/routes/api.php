@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ObjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,16 @@ Route::post("register", [AuthController::class, "register"]);
 Route::post("login", [AuthController::class, "login"]);
 Route::post("logout", [AuthController::class, "logout"])->middleware('auth:sanctum');
 
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('objects', [ObjectController::class, 'index']);
+    Route::post('objects/create', [ObjectController::class, 'store']);
+
+    Route::get('my-objects', [ObjectController::class, 'myObjects']);
+
+    Route::put('objects/{id}/update', [ObjectController::class, 'update']);
+    Route::delete('objects/{id}', [ObjectController::class, 'destroy']);
+
+});
+Route::put('/objects/{id}/status', [ObjectController::class, 'updateStatus'])
+    ->middleware(['auth:sanctum', 'isAdmin']);
