@@ -13,13 +13,15 @@ class IsAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->role !== "admin"){
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
             return response()->json([
-                "message"=>"accés admin uniquement"
-            ],403);
+                'message' => 'Accès admin uniquement'
+            ], 403);
         }
+
         return $next($request);
     }
+
 }

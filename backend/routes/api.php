@@ -24,9 +24,12 @@ Route::post("register", [AuthController::class, "register"]);
 Route::post("login", [AuthController::class, "login"]);
 Route::post("logout", [AuthController::class, "logout"])->middleware('auth:sanctum');
 
+Route::get('objects', [ObjectController::class, 'index']);
+Route::get('objects/filter', [ObjectController::class, 'filter']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('objects', [ObjectController::class, 'index']);
     Route::post('objects/create', [ObjectController::class, 'store']);
 
     Route::get('my-objects', [ObjectController::class, 'myObjects']);
@@ -36,4 +39,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 Route::put('/objects/{id}/status', [ObjectController::class, 'updateStatus'])
-    ->middleware(['auth:sanctum', 'isAdmin']);
+    ->middleware(['auth:sanctum', 'admin']);

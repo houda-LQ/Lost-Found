@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequest;
 use App\Http\Requests\UpdateRequest;
 use App\Models\ObjectItem;
 use Illuminate\Http\Request;
@@ -10,25 +11,38 @@ use Illuminate\Support\Facades\Storage;
 
 class ObjectController extends Controller
 {
-    public function index(Request $request){
-        $query =ObjectItem::with("user")->latest();
+   public function index()
+{
+    $objects = ObjectItem::with('user:id,name')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
-        if($request->filled("type")){
-            $query ->where("type",$request->type);
+    return response()->json(['objects' => $objects]);
+}
 
-        }
 
-        if($request->filled("location")){
-            $query->where("location","like","%" . $request->location ."%");
-        }
-        return response()->json($query->get());
+public function filter(Request $request)
+{
+    $query = ObjectItem::with('user:id,name')->orderBy('created_at', 'desc');
+
+    if ($request->filled('type')) {
+        $query->where('type', $request->type);
     }
 
+    if ($request->filled('location')) {
+        $query->where('location', 'like', '%' . $request->location . '%');
+    }
+
+    $objects = $query->get();
+
+    return response()->json(['objects' => $objects]);
+}
 
 
-    public function store(Request $request){
-        $request->validate();
-        $path=$request->file("image")->store("objects","public");
+
+    public function store(StoreRequest $request){
+
+    $path=$request->file("image")->store("objects","public");
 
         $object=ObjectItem::create([
             "title"=>$request->title,
@@ -63,7 +77,7 @@ $user=auth()->user();
 if($user->role === "user" && $object->user_id !== $user->id){
     return response()->json(["message"=>"Accés refusé"],403);
 }
-$request->validate();
+
 if($request->hasfile("image")){
     Storage::disk("public")->delete($object->image);
     $path=$request->file("image")->store("objects","public");
