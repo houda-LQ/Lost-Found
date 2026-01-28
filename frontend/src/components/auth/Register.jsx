@@ -24,7 +24,7 @@ export default function Register() {
       setPassword("")
     } catch (err) {
       if (err.response?.data?.errors) {
-        // Affiche toutes les erreurs de validation Laravel
+
         const messages = Object.values(err.response.data.errors)
           .flat()
           .join(" ")

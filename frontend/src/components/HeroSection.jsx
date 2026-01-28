@@ -12,7 +12,6 @@ export default function HeroSection() {
 
       </div>
 
-      {/* Contenu texte */}
       <div className="md:w-1/2 text-center md:text-left md:pl-12">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
           Trouvez ou déclarez vos objets perdus
@@ -28,7 +27,6 @@ export default function HeroSection() {
         </button>
       </div>
 
-      {/* Décorations flottantes */}
       <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse-slow"></div>
       <div className="absolute bottom-20 right-20 w-60 h-60 bg-white/20 rounded-full blur-2xl animate-spin-slow"></div>
     </section>

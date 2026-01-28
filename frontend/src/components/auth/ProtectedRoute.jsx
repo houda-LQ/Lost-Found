@@ -1,12 +1,12 @@
-import { Navigate } from "react-router-dom"
-import { useAuthStore } from "../../store/authStore"
+import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 export default function ProtectedRoute({ children }) {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />
+    return <Navigate to="/auth" replace />;
   }
 
-  return children
+  return children;
 }

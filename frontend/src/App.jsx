@@ -2,10 +2,9 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage"
 import AuthPage from "./pages/AuthPage"
 import ProtectedRoute from "./components/auth/ProtectedRoute"
-
-function Dashboard() {
-  return <h1 className="p-10">Dashboard privé 🔐</h1>
-}
+import DashboardLayout from "./components/DashboardLayout"
+import Dashboard from "./pages/Dashboard"
+import MyDeclarationsPage from "./pages/MyDeclarationsPage"
 
 function App() {
   return (
@@ -17,10 +16,13 @@ function App() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<Dashboard />} />
+<Route path="my-declarations" element={<MyDeclarationsPage />} />
+      </Route>
     </Routes>
   )
 }
